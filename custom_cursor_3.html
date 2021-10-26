@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            cursor: none !important;
+        }
+
+        /* Height: 100% is to make sure cursor: none works on all browsers (Im looking at you firefox)*/
+        html,
+        body {
+            background-color: #000;
+            height: 100%;
+            cursor: none;
+            overflow: hidden;
+        }
+
+        .mouse_el {
+            border-radius: 50%;
+            z-index: 100;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            animation: rotate 1s linear infinite;
+        }
+
+        .ring {
+            border: 5px solid #fff;
+        }
+
+        .dot {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+        }
+    </style>
+
+    <title>Custom Cursor Demo</title>
+</head>
+
+<body style="cursor: none">
+    <div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+        <div class="mouse_el ring"></div>
+    </div>
+    <div class="dot mouse_el"></div>
+
+    <script type="text/javascript">
+        let index = 0;
+        let rainbow = ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#FFFF00', '#FF7F00', '#FF0000'];
+        let dot = document.querySelector('.dot');
+        let rings = document.querySelectorAll('.ring');
+        let ring_border_size = parseInt(window.getComputedStyle(rings[0]).getPropertyValue('border-top-width'));
+
+        const updateCursor = (eventObj) => {
+            let lag = 50;
+
+            let x = eventObj.clientX;
+            let y = eventObj.clientY;
+
+            calcPosition(dot, x, y, ring_border_size);
+
+            rings.forEach((el, i) => {
+                lag += 50;
+                setTimeout(() => { calcPosition(el, x, y) }, lag + 50);
+            })
+        }
+
+
+        const calcPosition = (el, x, y, border_size = 0) => {
+            if (border_size <= 0) {
+                el.style.left = x - (el.clientWidth / 2) + 'px';
+                el.style.top = y - (el.clientHeight / 2) + 'px';
+            } else {
+                el.style.left = x - ((el.clientWidth / 2) - border_size) + 'px';
+                el.style.top = y - ((el.clientHeight / 2) - border_size) + 'px';
+            }
+        }
+
+        const setColors = () => {
+            let dimensions = 75;
+            rings.forEach((el) => {
+                index = index <= 6 ? index : 0;
+                el.style.borderColor = rainbow[index];
+                el.style.width = dimensions + 'px';
+                el.style.height = dimensions + 'px';
+                index++;
+                // dimensions += 5
+            })
+        }
+
+        window.addEventListener('mousemove', (e) => { updateCursor(e) });
+        setColors();
+    </script>
+</body>
+
+</html>

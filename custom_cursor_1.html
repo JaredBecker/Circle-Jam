@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            cursor: none !important;
+        }
+
+        body {
+            background-color: #000;
+        }
+
+        .big_ring {
+            border: 5px solid #fff;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 8px;
+            width: 8px;
+            background-color: #fff;
+            pointer-events: none;
+            border-radius: 50%;
+            z-index: 101;
+            cursor: none;
+        }
+    </style>
+
+    <title>Custom Cursor Demo</title>
+</head>
+
+<body style="cursor: none">
+    <div class="big_ring"></div>
+    <div class="dot"></div>
+
+    <script type="text/javascript">
+        let dot = document.querySelector('.dot');
+        let block = document.querySelector('.big_ring');
+        let colors = ['red', 'green', 'blue', 'purple', 'yellow', 'limegreen'];
+
+        function updateCursor(eventObj) {
+            let x = eventObj.clientX;
+            let y = eventObj.clientY;
+
+            dot.style.left = x - ((dot.clientWidth / 2) - 5) + 'px'
+            dot.style.top = y - ((dot.clientHeight / 2) - 5) + 'px'
+
+            setTimeout(function () {
+                block.style.left = x - (block.clientWidth / 2) + 'px'
+                block.style.top = y - (block.clientHeight / 2) + 'px'
+            }, 75)
+
+            let changeColor = Math.random() > 0.7;
+            if (changeColor) {
+                let selectedColor = colors[Math.floor(Math.random() * colors.length)];
+                block.style.borderColor = selectedColor;
+                dot.style.background = selectedColor;
+            } else {
+                block.style.borderColor = '#fff';
+                dot.style.background = '#fff';
+            }
+        }
+        window.addEventListener('mousemove', (e) => { updateCursor(e) })
+    </script>
+</body>
+
+</html>

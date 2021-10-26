@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        * {
+            cursor: none !important;
+        }
+
+        /* Height: 100% is to make sure cursor: none works on all browsers (Im looking at you firefox)*/
+        html,
+        body {
+            background-color: #000;
+            height: 100%;
+        }
+
+        .mouse_el {
+            border-radius: 50%;
+            z-index: 100;
+            pointer-events: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+        }
+
+        .biggest_ring {
+            border: 5px solid #fff;
+            height: 70px;
+            width: 70px;
+        }
+
+        .bigger_ring {
+            border: 5px solid #fff;
+            height: 50px;
+            width: 50px;
+        }
+
+        .big_ring {
+            border: 5px solid #fff;
+            height: 30px;
+            width: 30px;
+        }
+
+        .dot {
+            height: 8px;
+            width: 8px;
+            background-color: red;
+        }
+    </style>
+
+    <title>Custom Cursor Demo</title>
+</head>
+
+<body style="cursor: none">
+    <div class="mouse_el biggest_ring"></div>
+    <div class="mouse_el bigger_ring"></div>
+    <div class="mouse_el big_ring"></div>
+    <div class="dot mouse_el"></div>
+
+    <script type="text/javascript">
+        let dot = document.querySelector('.dot');
+        let big_ring = document.querySelector('.big_ring');
+        let bigger_ring = document.querySelector('.bigger_ring')
+        let biggest_ring = document.querySelector('.biggest_ring')
+        let big_ring_border_size = parseInt(window.getComputedStyle(big_ring).getPropertyValue('border-top-width'));
+
+        function updateCursor(eventObj) {
+            let x = eventObj.clientX;
+            let y = eventObj.clientY;
+
+            twoPlusTwoIsFourMinusOneThatsThreeQuickMaths(dot, x, y, big_ring_border_size);
+
+            setTimeout(() => { twoPlusTwoIsFourMinusOneThatsThreeQuickMaths(big_ring, x, y) }, 100);
+            setTimeout(() => { twoPlusTwoIsFourMinusOneThatsThreeQuickMaths(bigger_ring, x, y) }, 150);
+            setTimeout(() => { twoPlusTwoIsFourMinusOneThatsThreeQuickMaths(biggest_ring, x, y) }, 200);
+        }
+
+        function twoPlusTwoIsFourMinusOneThatsThreeQuickMaths(el, x, y, border_size = 0) {
+            if (border_size <= 0) {
+                el.style.left = x - (el.clientWidth / 2) + 'px';
+                el.style.top = y - (el.clientHeight / 2) + 'px';
+            } else  {
+                el.style.left = x - ((el.clientWidth / 2) - border_size) + 'px';
+                el.style.top = y - ((el.clientHeight / 2) - border_size) + 'px';
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => { updateCursor(e) })
+    </script>
+</body>
+
+</html>
